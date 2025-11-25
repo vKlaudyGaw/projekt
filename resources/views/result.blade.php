@@ -13,7 +13,7 @@
             Wynik Quizu
         </div>
         <div class="card-body">
-            <h5 class="card-title">{{ $quizTitle }} zakończony!</h5>
+            <h5 class="card-title">{{ $quiz->title }} zakończony!</h5>
             
             <p class="card-text display-4 my-4">
                 {{ $score }} / {{ $total }} pkt
@@ -24,14 +24,14 @@
             @endphp
 
             @if($percentage >= 80)
-                <div class="alert alert-success">Świetna robota! Jesteś mistrzem!</div>
+                <div class="alert alert-success">Świetna robota!</div>
             @elseif($percentage >= 50)
-                <div class="alert alert-warning">Całkiem nieźle, ale stać Cię na więcej!</div>
+                <div class="alert alert-warning">Całkiem nieźle, spróbuj jeszcze raz!</div>
             @else
                 <div class="alert alert-danger">Musisz jeszcze trochę poćwiczyć.</div>
             @endif
 
-            <a href="{{ url('/quiz') }}" class="btn btn-primary">Rozwiąż ponownie</a>
+            <a href="{{ route('quiz.show', $quiz->slug) }}" class="btn btn-primary">Rozwiąż ponownie</a>
             <a href="{{ url('/') }}" class="btn btn-secondary">Wróć do strony głównej</a>
         </div>
     </div>

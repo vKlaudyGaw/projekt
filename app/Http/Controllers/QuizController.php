@@ -10,8 +10,16 @@ use Illuminate\Http\Request;
 class QuizController extends Controller
 {
     //
-    public function show(){
-        $quiz = Quiz::with('questions.answers')->first();
+    public function index()
+    {
+        $quizzes = Quiz::all();
+        return view('mainpage', compact('quizzes'));
+    }
+
+    public function show($slug){
+        $quiz = Quiz::with('questions.answers')
+            ->where('slug', $slug)
+            ->firstOrFail();
         return view('quiz', compact('quiz'));
     }
 
@@ -29,7 +37,6 @@ class QuizController extends Controller
         if ($data) {
             foreach ($data as $questionId => $answerId) {
                 $answer = Answer::find($answerId);
-                
                 if ($answer && $answer->is_correct) {
                     $userPoints += $answer->question->points;
                 }
@@ -39,7 +46,7 @@ class QuizController extends Controller
         return view('result', [
             'score' => $userPoints,
             'total' => $maxPoints,
-            'quizTitle' => $quiz->title
+            'quiz' => $quiz
         ]);
     }
 }

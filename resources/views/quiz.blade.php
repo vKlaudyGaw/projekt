@@ -1,8 +1,17 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Rozwiąż Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 <div class="container">
     @if($quiz)
-        <h1>{{ $quiz->title }}</h1>
-        <p>{{ $quiz->description }}</p>
-
+        <div class="mt-5 mb-5 text-center">
+            <h1 class="mb-4">{{ $quiz->title }}</h1>
+            <p class="lead text-muted">{{ $quiz->description }}</p>
+        </div>
         <form method="POST" action="{{ route('quiz.store') }}">
             @csrf
 
@@ -47,3 +56,5 @@
         </div>
     @endif
 </div>
+</body>
+</html>
