@@ -1,0 +1,46 @@
+<?php
+
+
+namespace App\Http\Controllers;
+
+use App\Models\Quiz;
+use App\Models\Answer;
+use Illuminate\Http\Request;
+
+class QuizController extends Controller
+{
+    //
+    public function show(){
+        $quiz = Quiz::with('questions.answers')->first();
+        return view('quiz', compact('quiz'));
+    }
+
+    public function store(Request $request)
+    {
+        $quizId = $request->input('quiz_id');
+        
+        $quiz = Quiz::with('questions')->findOrFail($quizId);
+        
+        $maxPoints = $quiz->questions->sum('points');
+
+        $data = $request->input('answers'); 
+        $userPoints = 0;
+
+        if ($data) {
+            foreach ($data as $questionId => $answerId) {
+                $answer = Answer::find($answerId);
+                
+                if ($answer && $answer->is_correct) {
+                    $userPoints += $answer->question->points;
+                }
+            }
+        }
+
+        return view('result', [
+            'score' => $userPoints,
+            'total' => $maxPoints,
+            'quizTitle' => $quiz->title
+        ]);
+    }
+}
+
