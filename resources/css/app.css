@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+/* @import 'tailwindcss'; */
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -8,4 +8,40 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+:root {
+    --moj-roz: #dea5a4;
+    --moj-roz-ciemny: #c58f8e;
+}
+
+.btn-primary {
+    background-color: var(--moj-roz) !important;
+    border-color: var(--moj-roz) !important;
+    color: #fff;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    background-color: var(--moj-roz-ciemny) !important;
+    border-color: var(--moj-roz-ciemny) !important;
+    box-shadow: 0 0 0 0.25rem rgba(222, 165, 164, 0.5) !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--moj-roz) !important;
+    border-color: var(--moj-roz) !important;
+}
+
+.form-check-input:focus {
+    border-color: var(--moj-roz-ciemny) !important;
+    box-shadow: 0 0 0 0.25rem rgba(222, 165, 164, 0.25) !important;
+}
+
+a {
+    color: var(--moj-roz-ciemny);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--moj-roz);
 }
