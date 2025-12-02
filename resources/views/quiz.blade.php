@@ -25,7 +25,7 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <strong>{{ $question->content }}</strong> 
-                        <span class="badge bg-secondary float-end">Pkt: {{ $question->points }}</span>
+                        <span class="badge bg-primary float-end">Pkt: {{ $question->points }}</span>
                     </div>
                     <div class="card-body">
                         @switch($question->type)
