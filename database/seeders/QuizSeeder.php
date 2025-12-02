@@ -24,31 +24,41 @@ class QuizSeeder extends Seeder
 
             foreach (range(1, 10) as $j) {
                 
+                $type = $faker->randomElement(['single_choice', 'multiple_choice', 'text']);
+
                 $questionContent = $faker->realText(50);
                 $questionContent = rtrim($questionContent, '.') . '?';
 
                 $question = $quiz->questions()->create([
                     'content' => $questionContent,
+                    'type'    => $type,
                     'points'  => rand(1, 5),
                 ]);
 
-                $answersPool = [];
-
-                $answersPool[] = [
-                    'content'    => $faker->realText(20) . ' (Poprawna)', 
-                    'is_correct' => true
-                ];
-
-                for ($k = 0; $k < 3; $k++) {
-                    $answersPool[] = [
-                        'content'    => $faker->realText(15), 
-                        'is_correct' => false
-                    ];
+                if ($type === 'text') {
+                    $question->answers()->create([
+                        'content'    => $faker->word,
+                        'is_correct' => true
+                    ]);
                 }
-
-                shuffle($answersPool);
-
-                $question->answers()->createMany($answersPool);
+                elseif ($type === 'multiple_choice') {
+                    $question->answers()->createMany([
+                        ['content' => $faker->word . ' (Poprawna)', 'is_correct' => true],
+                        ['content' => $faker->word . ' (Poprawna)', 'is_correct' => true],
+                        ['content' => $faker->word, 'is_correct' => false],
+                        ['content' => $faker->word, 'is_correct' => false],
+                    ]);
+                }
+                else {
+                    $answers = [
+                        ['content' => $faker->word . ' (Poprawna)', 'is_correct' => true],
+                        ['content' => $faker->word, 'is_correct' => false],
+                        ['content' => $faker->word, 'is_correct' => false],
+                        ['content' => $faker->word, 'is_correct' => false],
+                    ];
+                    shuffle($answers);
+                    $question->answers()->createMany($answers);
+                }
             }
         }
     }

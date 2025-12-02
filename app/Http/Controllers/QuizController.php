@@ -1,53 +1,98 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
-use App\Models\Answer;
 use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
-    //
     public function index()
     {
         $quizzes = Quiz::all();
         return view('mainpage', compact('quizzes'));
     }
 
-    public function show($slug){
+    public function show($slug)
+    {
         $quiz = Quiz::with('questions.answers')
             ->where('slug', $slug)
             ->firstOrFail();
+
         return view('quiz', compact('quiz'));
     }
 
     public function store(Request $request)
     {
-        $quizId = $request->input('quiz_id');
-        
-        $quiz = Quiz::with('questions')->findOrFail($quizId);
-        
+
+        $validated = $request->validate([
+            'quiz_id' => 'required|integer|exists:quizzes,id',
+            'answers' => 'array', 
+        ], [
+            'quiz_id.required' => 'Błąd: Nie zidentyfikowano quizu.',
+            'quiz_id.exists'   => 'Taki quiz nie istnieje.',
+            'answers.array'    => 'Błędny format odpowiedzi.'
+        ]);
+
+        $quizId = $validated['quiz_id']; 
+
+        $quiz = Quiz::with('questions.answers')->findOrFail($quizId);
+
         $maxPoints = $quiz->questions->sum('points');
 
-        $data = $request->input('answers'); 
-        $userPoints = 0;
+        $userAnswers = $request->input('answers', []);
 
-        if ($data) {
-            foreach ($data as $questionId => $answerId) {
-                $answer = Answer::find($answerId);
-                if ($answer && $answer->is_correct) {
-                    $userPoints += $answer->question->points;
-                }
+        $score = 0;
+
+        foreach ($quiz->questions as $question) {
+            
+            if (!isset($userAnswers[$question->id])) {
+                continue;
+            }
+
+            $userValue = $userAnswers[$question->id];
+
+            switch ($question->type) {
+                
+                case 'single_choice':
+                    $correctAnswer = $question->answers->where('is_correct', true)->first();
+                    
+                    if ($correctAnswer && $correctAnswer->id == $userValue) {
+                        $score += $question->points;
+                    }
+                    break;
+
+                case 'multiple_choice':
+                    
+                    if (!is_array($userValue)) break;
+
+                    $correctIds = $question->answers->where('is_correct', true)->pluck('id')->toArray();
+
+                    if (count($userValue) === count($correctIds) && empty(array_diff($userValue, $correctIds))) {
+                        $score += $question->points;
+                    }
+                    break;
+
+                case 'text':
+                    
+                    $pattern = $question->answers->first(); 
+                    
+                    if ($pattern) {
+                        $userText = strtolower(trim($userValue));
+                        $dbText = strtolower(trim($pattern->content));
+
+                        if ($userText === $dbText) {
+                            $score += $question->points;
+                        }
+                    }
+                    break;
             }
         }
 
         return view('result', [
-            'score' => $userPoints,
+            'score' => $score,
             'total' => $maxPoints,
-            'quiz' => $quiz
+            'quiz'  => $quiz
         ]);
     }
 }
-

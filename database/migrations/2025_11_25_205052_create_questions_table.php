@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('quiz_id')->constrained()->cascadeOnDelete();
             $table->text('content');
+            $table->string('type')->default('single_choice');
             $table->integer('points')->default(1);
             $table->timestamps();
         });
