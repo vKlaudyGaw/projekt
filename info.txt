@@ -1,0 +1,20 @@
+dodać na końcu do  C:\xampp\apache\conf\extra\httpd-vhosts.conf
+
+<VirtualHost *:80>
+	ServerName projekt.lovalhost
+	DocumentRoot "C:\xampp\htdocs\projekt\public"
+	<Directory "C:\xampp\htdocs\projekt\public">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+
+
+
+zrobić 
+composer install
+npm install
+npm run build
+
+projekt na linku projekt.localhost
