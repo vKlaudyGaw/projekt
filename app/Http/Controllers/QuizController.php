@@ -63,27 +63,30 @@ class QuizController extends Controller
                     break;
 
                 case 'multiple_choice':
-                    
                     if (!is_array($userValue)) break;
 
                     $correctIds = $question->answers->where('is_correct', true)->pluck('id')->toArray();
+                    $totalCorrectCount = count($correctIds);
 
-                    if (count($userValue) === count($correctIds) && empty(array_diff($userValue, $correctIds))) {
-                        $score += $question->points;
-                    }
+                    if ($totalCorrectCount === 0) break;
+
+                    $pointsPerHit = $question->points / $totalCorrectCount;
+                    $userHits = count(array_intersect($userValue, $correctIds));
+                    $score += $userHits * $pointsPerHit;
+                    
                     break;
 
                 case 'text':
                     
-                    $pattern = $question->answers->first(); 
-                    
-                    if ($pattern) {
-                        $userText = strtolower(trim($userValue));
-                        $dbText = strtolower(trim($pattern->content));
+                    $userText = strtolower(trim($userValue));
 
-                        if ($userText === $dbText) {
-                            $score += $question->points;
+                    foreach ($question->answers as $ans) {
+                        
+                        if (strtolower(trim($ans->content)) === $userText) {
+                            $score += $question->points; 
+                            break; 
                         }
+                        
                     }
                     break;
             }
