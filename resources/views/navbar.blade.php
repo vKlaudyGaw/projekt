@@ -13,17 +13,17 @@
                 
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">Zaloguj się</a>
+                        <a class="nav-link text-primary fw-bold" href="{{ route('login') }}">Zaloguj się</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary ms-2" href="{{ route('register') }}">Zarejestruj się</a>
+                        <a class="nav-link text-primary fw-bold" href="{{ route('register') }}">Zarejestruj się</a>
                     </li>
                 @else
                     
                     @if(Auth::user()->is_admin)
                         <li class="nav-item">
-                            <a class="nav-link text-danger fw-bold" href="{{ route('admin.quizzes.index') }}">
-                                <i class="bi bi-gear-fill"></i> Panel Admina
+                            <a class="nav-link text-primary fw-bold" href="{{ route('admin.quizzes.index') }}">
+                                <i class="bi bi-gear-fill"></i> Panel Administratora
                             </a>
                         </li>
                     @endif

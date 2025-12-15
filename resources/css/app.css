@@ -1,3 +1,117 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+:root {
+    --moj-roz: #8B3A64;
+    --moj-roz-ciemny: #6d2d4d;
+}
+
+
+.text-primary {
+    color: var(--moj-roz) !important;
+}
+
+a.text-primary:hover,
+a.text-primary:focus,
+a.text-primary:active,
+.nav-link.text-primary:hover,
+.nav-link.text-primary:focus,
+.nav-link.text-primary:active {
+    color: var(--moj-roz-ciemny) !important;
+    background-color: transparent !important;
+    text-decoration: none;
+    opacity: 1 !important;
+}
+
+
+.btn-primary {
+    background-color: var(--moj-roz) !important;
+    border-color: var(--moj-roz) !important;
+    color: #fff !important;
+}
+
+.btn-primary:hover, 
+.btn-primary:active, 
+.btn-primary:focus {
+    background-color: var(--moj-roz-ciemny) !important;
+    border-color: var(--moj-roz-ciemny) !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.25rem rgba(139, 58, 100, 0.5) !important;
+}
+
+.btn-outline-primary {
+    color: var(--moj-roz) !important;
+    border-color: var(--moj-roz) !important; 
+}
+
+.btn-outline-primary:hover, 
+.btn-outline-primary:active, 
+.btn-outline-primary:focus {
+    background-color: var(--moj-roz) !important; 
+    border-color: var(--moj-roz) !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.25rem rgba(139, 58, 100, 0.5) !important;
+}
+
+.bg-primary {
+    background-color: var(--moj-roz) !important;
+    color: #fff; 
+}
+
+.form-check-input:checked {
+    background-color: var(--moj-roz) !important;
+    border-color: var(--moj-roz) !important;
+}
+
+.form-check-input:focus {
+    border-color: var(--moj-roz-ciemny) !important;
+    box-shadow: 0 0 0 0.25rem rgba(139, 58, 100, 0.25) !important;
+}
+
+
+a {
+    color: var(--moj-roz-ciemny);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+    color: var(--moj-roz);
+}
+
+.collapse {
+    visibility: visible !important;
+}
+
+.collapse:not(.show) {
+    display: none !important;
+}
+
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-collapse {
+        display: flex !important;
+    }
+}
+
+.form-control:focus, 
+.form-select:focus {
+    border-color: var(--moj-roz-ciemny) !important;
+    box-shadow: 0 0 0 0.25rem rgba(139, 58, 100, 0.25) !important; 
+    outline: 0 !important;
+}
+
+option:checked {
+    background-color: var(--moj-roz) !important;
+    color: white !important;
+}
