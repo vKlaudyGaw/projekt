@@ -1,4 +1,4 @@
-dodać na końcu do  C:\xampp\apache\conf\extra\httpd-vhosts.conf
+1. dodać na końcu pliku C:\xampp\apache\conf\extra\httpd-vhosts.conf
 
 <VirtualHost *:80>
 	ServerName projekt.lovalhost
@@ -12,9 +12,14 @@ dodać na końcu do  C:\xampp\apache\conf\extra\httpd-vhosts.conf
 
 
 
-zrobić 
+2. zrobić 
 composer install
 npm install
 npm run build
 
+jeśli nie można zrobić composer install to trzeba usunąć plik composer.lock a następnie wpisać wpisać composer update
+
 projekt na linku projekt.localhost
+
+link do repozytorium na github
+https://github.com/vKlaudyGaw/projekt.git
